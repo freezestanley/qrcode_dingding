@@ -102,7 +102,7 @@
         <!-- <div >
           <img src="" id="qrcode" alt="" />
         </div> -->
-        <img src="" class="qrcode" id="qrcode" alt="" />
+        <a href="" id="qrlink"><img src="" class="qrcode" id="qrcode" alt="" /></a>
       </div>
       <div class="tips">
         <p class="triangle-up"></p>
@@ -120,7 +120,10 @@
           url: "https://corp.m.dongfangfuli.com/user/gateway/excelTemplate/queryTemplatePath?templateCode=FUXING_GROUP_QR_CODE",
           method: "POST",
           success: function (res) {
-            if (res.code === "0") $("#qrcode").attr("src", res.data);
+            if (res.code === "0") {
+              $("#qrcode").attr("src", res.data);
+              $("#qrlink").attr("href", res.data);
+            }
             document.getElementById("qrcode").focus()
           },
         });
