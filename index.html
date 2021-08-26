@@ -102,7 +102,7 @@
         <!-- <div >
           <img src="" id="qrcode" alt="" />
         </div> -->
-        <a href="" id="qrlink"><img src="" class="qrcode" id="qrcode" alt="" /></a>
+        <img src="" class="qrcode" id="qrcode" alt="" />
       </div>
       <div class="tips">
         <p class="triangle-up"></p>
@@ -115,6 +115,30 @@
     </div>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script>
+      var timer=null;
+
+      var touchstartHander=function(event){
+        // event.preventDefault();
+        timer=setTimeout(LongPress,500);
+      }
+
+      var touchmoveHander=function(event){
+        event.preventDefault();
+        clearTimeout(timer);
+            timer=null;
+      }
+
+      var touchendHander=function(event){
+        event.preventDefault();
+        clearTimeout(timer);
+            return false;
+      }
+      // 移动端
+      document.getElementById("qrcode").addEventListener("touchstart",touchstartHander,false);
+      document.getElementById("qrcode").addEventListener("touchmove",touchmoveHander,false);
+      document.getElementById("qrcode").addEventListener("touchend",touchendHander,false);
+      
+      
       $(function () {
         $.ajax({
           url: "https://corp.m.dongfangfuli.com/user/gateway/excelTemplate/queryTemplatePath?templateCode=FUXING_GROUP_QR_CODE",
@@ -122,7 +146,6 @@
           success: function (res) {
             if (res.code === "0") {
               $("#qrcode").attr("src", res.data);
-              $("#qrlink").attr("href", res.data);
             }
             document.getElementById("qrcode").focus()
           },
